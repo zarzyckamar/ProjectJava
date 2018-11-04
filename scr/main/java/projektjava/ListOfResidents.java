@@ -15,7 +15,7 @@ public class ListOfResidents {
 
     }
 
-    public static void Start() {
+    public void Start() {
 
         String imie;
         String nazwisko;
@@ -44,19 +44,22 @@ public class ListOfResidents {
             nazwisko = input.next();
             System.out.println("Podaj pesel:");
             pesel = input.next();
-            if (!CheckPesel.IsValidPesel(pesel)) {
-                System.out.println("Pesel nie jest prawidłowy...");
-                break;
+            if (!CheckPesel.IsValidPesel(pesel))
+            {
+                System.out.println("Pesel nie jest prawidłowy... Podaj jeszcze raz:");
+                pesel=input.next();
+
             }
 
             Person newPerson = new Person(imie, nazwisko, pesel);
             ArrayList<Person> ListofPeople;
 
-          /*  if (PersonStorage.get(miasto.toUpperCase()) == null)
+            if (PersonStorage.get(miasto.toUpperCase()) == null)
             {
                 ListofPeople = new ArrayList<Person>();
                 ListofPeople.add(newPerson);
                 PersonStorage.put(miasto.toUpperCase(), ListofPeople);
+             //   PersonStorage.get(pesel)
             }
             else
             {
@@ -67,9 +70,14 @@ public class ListOfResidents {
                         .orElse(null);
                 if(personWithTheSamePesel==null)
                     {
-                        ListofPeople.add(newPerson); }
-                else{personWithTheSamePesel.RenamePerson(newPerson.imie, newPerson.nazwisko);}
-            }*/
+                        ListofPeople.add(newPerson);
+                    }
+                else
+                    {
+                        personWithTheSamePesel.RenamePerson(newPerson.imie, newPerson.nazwisko);
+
+                    }
+            }
         }
         }
     }
