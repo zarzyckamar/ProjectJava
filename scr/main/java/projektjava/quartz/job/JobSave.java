@@ -1,41 +1,65 @@
 package projektjava.quartz.job;
 
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import projektjava.ListOfResidents;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 //Simplest job is a class that implements Job interface (execute method)
 public class JobSave implements org.quartz.Job {
 
-    int i = 0;
 
+    public void execute(JobExecutionContext jobExecutionContext)
 
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    {
 
-   //     JobKey jobKey = JobExecutionContext.getJobDetail().getKey();
-
-  //      JobDataMap PersonStorage = JobExecutionContext.getJobDetail().getJobDataMap();
-
-      //  HashMap<String, ArrayList<Person>> PersonStorage =ListOfResidents.getX();
+        String a = ListOfResidents.getInfo();
 
 
         try {
-            FileWriter zapis = new FileWriter("odp.txt");
+            toFile(a);
+            System.out.println("Zapis do pliku wykonany");
 
-            zapis.write("dupa");
-
-            zapis.close();
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
 
         System.out.println(jobExecutionContext.getFireTime());
+    }
 
+    public static void toFile(String data) throws IOException
+    {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("odp.txt"));
+        writer.write(data);
+        writer.close();
+        FileReader fileReader = new FileReader("odp.txt");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String input;
+        List<String> lineList =new ArrayList<String>();
+        while((input = bufferedReader.readLine())!= null)
+        {
+            lineList.add(input);
 
+        }
+        fileReader.close();
+
+        Collections.sort(lineList);
+        Writer fileWriter =new FileWriter("odp.txt");
+        PrintWriter out = new PrintWriter(fileWriter);
+        for(String outputLine : lineList)
+        {
+            out.println(outputLine);
+            out.println();
+        }
+        out.flush();
+        out.close();
+        fileWriter.close();
 
 
     }

@@ -14,6 +14,11 @@ public class ListOfResidents {
         PersonStorage = new HashMap<>();
 
     }
+    public static String info = "";
+    public static String getInfo()
+    {
+        return info;
+    }
 
     public void Start() {
 
@@ -21,6 +26,7 @@ public class ListOfResidents {
         String nazwisko;
         String pesel;
         String miasto;
+        String data;
 
         File outputFile = new File("odp.txt");
         try {
@@ -44,40 +50,44 @@ public class ListOfResidents {
             nazwisko = input.next();
             System.out.println("Podaj pesel:");
             pesel = input.next();
-            if (!CheckPesel.IsValidPesel(pesel))
-            {
-                System.out.println("Pesel nie jest prawidłowy... Podaj jeszcze raz:");
-                pesel=input.next();
 
-            }
 
-            Person newPerson = new Person(imie, nazwisko, pesel);
-            ArrayList<Person> ListofPeople;
+            if (CheckPesel.IsValidPesel(pesel)) {
 
-            if (PersonStorage.get(miasto.toUpperCase()) == null)
-            {
-                ListofPeople = new ArrayList<Person>();
-                ListofPeople.add(newPerson);
-                PersonStorage.put(miasto.toUpperCase(), ListofPeople);
-             //   PersonStorage.get(pesel)
-            }
-            else
-            {
-                ListofPeople = PersonStorage.get(miasto.toUpperCase());
-                Person personWithTheSamePesel= ListofPeople.stream()
-                        .filter((person)-> person.getPesel().equals(newPerson.getPesel()))
-                        .findFirst()
-                        .orElse(null);
-                if(personWithTheSamePesel==null)
-                    {
+                Person newPerson = new Person(imie, nazwisko, pesel);
+                ArrayList<Person> ListofPeople;
+
+                if (PersonStorage.get(miasto.toUpperCase()) == null) {
+                    ListofPeople = new ArrayList<Person>();
+                    ListofPeople.add(newPerson);
+                    PersonStorage.put(miasto.toUpperCase(), ListofPeople);
+                    //   PersonStorage.get(pesel)
+                } else {
+                    ListofPeople = PersonStorage.get(miasto.toUpperCase());
+
+                    Person personWithTheSamePesel = ListofPeople.stream()
+                            .filter((person) -> person.getPesel().equals(newPerson.getPesel()))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (personWithTheSamePesel == null) {
+                      /*  if (PersonStorage.get(miasto).stream()
+                                .filter((person)-> person.getPesel().equals(PersonStorage.get(miasto).stream()
+                                                                                 .filter(newPerson.getPesel())))) {
+
+                            personWithTheSamePesel.RenamePerson(newPerson.imie,newPerson.nazwisko);*/
                         ListofPeople.add(newPerson);
-                    }
-                else
-                    {
+                    } else {
                         personWithTheSamePesel.RenamePerson(newPerson.imie, newPerson.nazwisko);
 
                     }
+                }
+                info = info + miasto + " " + imie + " " + nazwisko + " " + pesel + System.lineSeparator();
+
             }
-        }
+            else System.out.println("Nieprawidłowy pesel");
         }
     }
+
+    }
+
