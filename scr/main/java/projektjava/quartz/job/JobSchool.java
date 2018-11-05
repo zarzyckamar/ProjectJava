@@ -29,7 +29,8 @@ public class JobSchool implements org.quartz.Job {
 
     public String howmanytime(Date data) {
         if (isBreak(data) == true) {
-            if ((data.after(dateOf(00, 00, 00)) && data.before(dateOf(8, 15, 00)))) {
+            if (
+                    (data.after(dateOf(00, 00, 00)) && data.before(dateOf(8, 15, 00)))) {
                 Date enddata = dateOf(8, 15, 00);
                 long current, end, result;
                 current = data.getTime(); //nanosekundy
